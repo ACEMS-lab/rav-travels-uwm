@@ -1,0 +1,35 @@
+{
+  "pageTitle": "TRAVELS Project 1 – RAV Demand Analysis and User Needs",
+
+  "brand": {
+    "name": "TRAVELS",
+    "subtitle": "UW–Milwaukee · Project 1",
+    "logo": ""
+  },
+
+  "nav": [
+    { "label": "About",    "target": "about" },
+    { "label": "Services", "target": "services" },
+    { "label": "Survey",   "target": "survey" },
+    { "label": "Results",  "target": "results" },
+    { "label": "Team",     "target": "team" }
+  ],
+
+  "hero": {
+    "eyebrow": "Tribal & Rural Autonomous Vehicles for Efficiency, Livability and Safety",
+    "title": "RAV Demand Analysis and User Needs Assessment",
+    "lead": "What do rural residents, seniors, and people with disabilities need from autonomous vehicles? This task, led by UW–Milwaukee, surveys those needs and forecasts demand for rural AV services.",
+    "buttons": [
+      { "label": "Take the survey", "href": "#survey", "style": "primary" },
+      { "label": "Main TRAVELS website ↗", "href": "https://travels.project.wiscweb.wisc.edu", "style": "ghost" }
+    ]
+  },
+
+  "footer": {
+    "before": "Part of the ",
+    "linkLabel": "TRAVELS",
+    "linkUrl": "https://travels.project.wiscweb.wisc.edu",
+    "after": " program, funded by the U.S. Department of Transportation Rural Autonomous Vehicle (RAV) Program. Lead institution: University of Wisconsin–Madison.",
+    "copyright": "University of Wisconsin–Milwaukee, ACEMS Lab."
+  }
+}

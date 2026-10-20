@@ -1,0 +1,10 @@
+{
+  "title": "The four core TRAVELS services",
+  "intro": "The needs we study map onto four proposed rural AV services.",
+  "items": [
+    { "name": "DIRECT",  "text": "Digital infrastructure and road enhancement for connected transportation." },
+    { "name": "HONR-AV", "text": "Healthcare and on-demand rapid autonomous vehicles." },
+    { "name": "CREAT",   "text": "Cross-jurisdiction rural economic autonomous transit." },
+    { "name": "TEAS",    "text": "Tourist and event autonomous shuttles." }
+  ]
+}

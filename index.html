@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+  index.html is now only the EMPTY FRAME of the page.
+  The words and links live in the content/ folder (JSON files).
+  js/main.js reads those files and fills in the boxes below.
+
+    Want to change text or a link?   -> edit a file in content/
+    Want to change colors/spacing?   -> edit css/style.css
+    Want to add or move a section?   -> edit this file (and add a render function in js/main.js)
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TRAVELS Project 1 – RAV Demand Analysis and User Needs</title>
+  <meta name="description" content="UW–Milwaukee's task in the TRAVELS program: rural autonomous vehicle demand analysis and user needs assessment.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ HEADER / NAVIGATION (filled from content/site.json) ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" id="brand" href="#top"><span class="brand-mark">TRAVELS</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav">Menu</button>
+      <nav id="siteNav" class="site-nav" aria-label="Page sections"></nav>
+    </div>
+  </header>
+
+  <!-- Shown only if some content file fails to load (see js/main.js) -->
+  <div id="loadWarning" class="load-warning" hidden></div>
+
+  <noscript>
+    <p class="noscript">
+      This page needs JavaScript to display its content. Please enable it, or visit the main
+      <a href="https://travels.project.wiscweb.wisc.edu">TRAVELS website</a>.
+    </p>
+  </noscript>
+
+  <main id="top">
+    <!-- Each section is an empty box. The id tells main.js which content file fills it. -->
+    <section class="hero"            id="hero"><div class="container" data-fill></div></section>
+    <section class="section"         id="about"><div class="container" data-fill></div></section>
+    <section class="section alt"     id="services"><div class="container" data-fill></div></section>
+    <section class="section"         id="survey"><div class="container" data-fill></div></section>
+    <section class="section alt"     id="results"><div class="container" data-fill></div></section>
+    <section class="section"         id="team"><div class="container" data-fill></div></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container" id="footerContent"></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+/* =====================================================
+   style.css  -  the LOOK of the page
+   How CSS works:  selector { property: value; }
+   e.g.  h1 { color: red; }  means "make every <h1> red".
+   ===================================================== */
+
+/* 1. COLOR + SIZE SETTINGS ("variables"). Change a color here and it changes everywhere. */
+:root {
+  --maroon: #8b1a2b;      /* TRAVELS-style dark red (guessed from the proposal; adjust to the real brand) */
+  --maroon-dark: #6a1220;
+  --orange: #e8622c;      /* accent */
+  --text: #222;
+  --muted: #5d5d5d;
+  --bg: #ffffff;
+  --bg-alt: #f6f2f2;      /* light tint for alternating sections */
+  --border: #e3d9d9;
+  --radius: 10px;
+  --max-width: 1040px;
+}
+
+/* 2. BASICS */
+* { box-sizing: border-box; }          /* makes widths easier to reason about */
+html { scroll-behavior: smooth; }       /* smooth scrolling when clicking nav links */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+a { color: var(--maroon); }
+a:hover { color: var(--orange); }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .6em; }
+h2 { font-size: 1.8rem; color: var(--maroon); }
+p { margin: 0 0 1em; }
+.small { font-size: .9rem; color: var(--muted); }
+
+/* Centers content and keeps lines from getting too long on wide screens */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* 3. HEADER + NAV */
+.site-header {
+  position: sticky;      /* stays at the top while scrolling */
+  top: 0;
+  z-index: 10;
+  background: var(--maroon);
+  color: #fff;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+}
+.brand { text-decoration: none; color: #fff; display: flex; flex-direction: column; line-height: 1.1; }
+.brand-mark { font-weight: 800; letter-spacing: .18em; font-size: 1.2rem; }
+.brand-sub { font-size: .75rem; opacity: .85; }
+.site-nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+}
+.site-nav a:hover { color: #ffd2bd; }
+.menu-toggle { display: none; }   /* hidden on desktop; shown on phones below */
+
+/* 4. HERO */
+.hero {
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+  color: #fff;
+  padding: 64px 0;
+}
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }   /* clamp = size that scales with screen width */
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; opacity: .85; }
+.lead { font-size: 1.15rem; max-width: 720px; }
+
+/* 5. BUTTONS */
+.button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-primary { background: var(--orange); color: #fff; }
+.btn-primary:hover { background: #c94f1e; color: #fff; }
+.btn-ghost { border: 2px solid #fff; color: #fff; }
+.btn-ghost:hover { background: #fff; color: var(--maroon); }
+
+/* 6. SECTIONS */
+.section { padding: 56px 0; }
+.section.alt { background: var(--bg-alt); }
+
+/* 7. CARDS + GRID LAYOUT
+   "grid" puts cards in columns. On phones we switch to 1 column (see section 9). */
+.grid { display: grid; gap: 16px; margin-top: 20px; }
+.grid.two   { grid-template-columns: repeat(2, 1fr); }
+.grid.three { grid-template-columns: repeat(3, 1fr); }
+.grid.four  { grid-template-columns: repeat(4, 1fr); }
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.card h3 { color: var(--maroon); font-size: 1.1rem; }
+
+/* 8a. SURVEY SWITCH (the two tabs above the survey) */
+.survey-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
+.survey-tab {
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: 2px solid var(--maroon);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--maroon);
+  cursor: pointer;
+}
+.survey-tab:hover { background: var(--bg-alt); }
+.survey-tab[aria-selected="true"] { background: var(--maroon); color: #fff; }   /* the active tab */
+.survey-tab:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.survey-description { margin-bottom: 12px; }
+
+/* 8b. SURVEY BOX + PLACEHOLDER */
+.survey-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+  min-height: 200px;
+  overflow: hidden;
+}
+.survey-box iframe { width: 100%; height: 720px; border: 0; display: block; }
+.survey-box .survey-message { padding: 32px; text-align: center; color: var(--muted); }
+.placeholder {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+}
+
+/* 8c. LOGO IMAGE, RESULT FIGURES, WARNINGS */
+.brand-logo { height: 36px; width: auto; display: block; margin-bottom: 2px; }
+.result { margin: 0; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.result img { width: 100%; height: auto; display: block; }
+.result figcaption { padding: 12px 16px; font-size: .95rem; }
+.load-warning { background: #fff3cd; color: #5c4400; padding: 12px 16px; text-align: center; font-size: .95rem; }
+.noscript { padding: 16px; text-align: center; background: #fff3cd; margin: 0; }
+
+/* 9. FOOTER */
+.site-footer { background: #2a2a2a; color: #ddd; padding: 28px 0; }
+.site-footer a { color: #ffd2bd; }
+
+/* 10. PHONES AND SMALL SCREENS
+   Everything inside @media applies ONLY when the screen is 800px wide or less. */
+@media (max-width: 800px) {
+  .grid.two, .grid.three, .grid.four { grid-template-columns: 1fr; }   /* single column */
+  .menu-toggle {
+    display: block;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 1rem;
+  }
+  .site-nav {
+    display: none;               /* hidden until the Menu button adds the "open" class */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--maroon-dark);
+    padding: 8px 16px 16px;
+  }
+  .site-nav.open { display: block; }
+  .site-nav a { display: block; margin: 0; padding: 10px 0; }
+  .survey-box iframe { height: 600px; }
+}

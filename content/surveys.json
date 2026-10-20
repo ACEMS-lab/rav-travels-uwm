@@ -1,0 +1,24 @@
+{
+  "title": "Take the survey",
+  "intro": "Your answers help shape autonomous vehicle services for rural and tribal communities.",
+  "consentNote": "[Placeholder: privacy and consent statement approved by Dr. Li / IRB.]",
+  "comingSoon": "This survey will appear here once the link is available.",
+  "fallbackText": "Survey not displaying?",
+  "fallbackLinkLabel": "Open it in a new tab",
+  "defaultTab": "resident",
+
+  "tabs": [
+    {
+      "key": "resident",
+      "label": "I'm a resident (consumer)",
+      "url": "https://milwaukee.qualtrics.com/jfe/form/SV_0P38qkFSxQf1Aea",
+      "description": "For residents and travelers in rural and tribal communities. [Placeholder: time to complete and who may take it.]"
+    },
+    {
+      "key": "provider",
+      "label": "I'm an AV service provider",
+      "url": "https://milwaukee.qualtrics.com/jfe/form/SV_diEcezRqx8Zn1KC",
+      "description": "For agencies and operators that provide or plan AV and transit services. [Placeholder: time to complete and who may take it.]"
+    }
+  ]
+}
