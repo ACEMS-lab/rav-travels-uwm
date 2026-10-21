@@ -1,16 +1,21 @@
 {
   "title": "About this task",
   "paragraphs": [
-    "Project 1 of TRAVELS assesses the needs for autonomous vehicles (AVs) among different user groups in rural areas, including individuals with disabilities. It builds on a senior mobility transportation needs survey conducted by UWM for WisDOT, which covered more than 70 counties, 13 transit agencies, and 83 service providers. UWM leads the task, with Oklahoma State University supporting rural demand work and Northern Oklahoma College supporting other demand work."
+    "Task 1.1 assesses user needs, mobility gaps, and potential demand for Rural Autonomous Vehicle (RAV) passenger transportation services in rural and tribal communities. It looks at both the people who would ride and the organizations that operate, manage, or coordinate rural mobility services.",
+    "University of Wisconsin-Milwaukee leads the task, with the University of Wisconsin-Madison, the University of Georgia, and Oklahoma State University supporting. The work builds on UWM's senior mobility transportation needs survey for WisDOT, which covered more than 70 counties, 13 transit agencies, and 83 service providers."
   ],
   "tasks": [
     {
-      "title": "1. User needs and expectations survey",
-      "text": "Collects what different rural user groups need, expect, and prefer from AV services."
+      "title": "1. User needs and expectations study",
+      "text": "Surveys, interviews, and focus groups with rural and tribal residents, caregivers, and service providers about travel needs, access barriers, and comfort with AV services."
     },
     {
-      "title": "2. RAV demand forecasting",
-      "text": "Projects demand using demographic trends, economic factors, and the state of existing transportation infrastructure."
+      "title": "2. Stakeholder engagement",
+      "text": "Working with advocacy and service organizations so that non-driver, older adult, disability, and rural mobility perspectives shape the study."
+    },
+    {
+      "title": "3. Demand forecasting",
+      "text": "Modeling potential demand for RAV services using the survey results, demographic trends, and economic and infrastructure conditions."
     }
   ]
 }

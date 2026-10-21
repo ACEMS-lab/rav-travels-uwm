@@ -1,5 +1,18 @@
-{
-  "title": "Results so far",
-  "emptyMessage": "Results will be posted here once they have been reviewed and approved.",
-  "items": []
-}
+   {
+     "title": "Results so far",
+     "emptyMessage": "Results will be posted here once they have been reviewed and approved.",
+     "items": [
+       {
+         "title": "Survey responses by state (TEST)",
+         "image": "content/images/survey_to_wisconsin.gif",
+         "alt": "Animated map: survey responses from across the United States flowing into Wisconsin",
+         "caption": "Test data only."
+       },
+        {
+         "title": "Survey responses by state (TEST)",
+         "image": "content/images/responses_by_state.png",
+         "alt": "Animated map: survey responses from across the United States flowing into Wisconsin",
+         "caption": "Test data only."
+       }
+     ]
+   }

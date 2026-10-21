@@ -40,8 +40,21 @@ function renderSite(site) {
   const logo = site.brand.logo
     ? '<img class="brand-logo" src="' + esc(site.brand.logo) + '" alt="' + esc(site.brand.name) + ' logo">'
     : '<span class="brand-mark">' + esc(site.brand.name) + "</span>";
+  // The small subtitle is optional: leave "subtitle" empty in site.json to show only the logo
   document.getElementById("brand").innerHTML =
-    logo + '<span class="brand-sub">' + esc(site.brand.subtitle) + "</span>";
+    logo + (site.brand.subtitle ? '<span class="brand-sub">' + esc(site.brand.subtitle) + "</span>" : "");
+
+  // Where the logo/brand links to: brand.url in site.json (empty = scroll to top of this page)
+  const brandLink = document.getElementById("brand");
+  brandLink.href = site.brand.url || "#top";
+  brandLink.title = site.brand.url ? "Go to the main TRAVELS website" : "";
+  if (site.brand.url && site.brand.newTab) {
+    brandLink.target = "_blank";
+    brandLink.rel = "noopener";
+  }
+
+  // With a logo, the header turns white so a colored logo stays visible (see .logo-header in style.css)
+  document.querySelector(".site-header").classList.toggle("logo-header", Boolean(site.brand.logo));
 
   // Navigation links
   document.getElementById("siteNav").innerHTML = site.nav
@@ -69,15 +82,36 @@ function renderSite(site) {
     '<p class="small">© ' + new Date().getFullYear() + " " + esc(f.copyright) + "</p>";
 }
 
+// Picks a column layout that fits the number of cards (see .grid.two/.three/.four in style.css)
+function gridClass(count) {
+  return count === 2 ? "two" : count === 4 ? "four" : "three";
+}
+
 function renderAbout(about) {
   box("about").innerHTML =
     "<h2>" + esc(about.title) + "</h2>" +
     about.paragraphs.map(p => "<p>" + esc(p) + "</p>").join("") +
-    '<div class="grid two">' +
+    '<div class="grid ' + gridClass(about.tasks.length) + '">' +
       about.tasks.map(t =>
         '<article class="card"><h3>' + esc(t.title) + "</h3><p>" + esc(t.text) + "</p></article>"
       ).join("") +
     "</div>";
+}
+
+// Progress timeline: each step has a status ("Completed", "In progress", "Planned") shown as a colored badge
+function renderProgress(progress) {
+  box("progress").innerHTML =
+    "<h2>" + esc(progress.title) + "</h2>" +
+    (progress.intro ? "<p>" + esc(progress.intro) + "</p>" : "") +
+    (progress.asOf ? '<p class="small">' + esc(progress.asOf) + "</p>" : "") +
+    '<ol class="timeline">' +
+      progress.steps.map(s =>
+        '<li class="step step-' + esc(s.status.toLowerCase().replace(/\s+/g, "-")) + '">' +
+          '<span class="badge">' + esc(s.status) + "</span>" +
+          "<div><strong>" + esc(s.name) + "</strong>" +
+          (s.note ? '<br><span class="small">' + esc(s.note) + "</span>" : "") + "</div></li>"
+      ).join("") +
+    "</ol>";
 }
 
 function renderServices(services) {
@@ -167,7 +201,7 @@ function renderResults(results) {
 function renderTeam(team) {
   box("team").innerHTML =
     "<h2>" + esc(team.title) + "</h2>" +
-    '<div class="grid three">' +
+    '<div class="grid ' + gridClass(team.members.length) + '">' +
       team.members.map(m =>
         '<article class="card"><h3>' + esc(m.institution) + "</h3>" +
         (m.role ? "<p>" + esc(m.role) + "</p>" : "") +
@@ -185,6 +219,7 @@ const SECTIONS = [
   { file: "site",     build: renderSite,     sectionId: "hero" },
   { file: "about",    build: renderAbout,    sectionId: "about" },
   { file: "services", build: renderServices, sectionId: "services" },
+  { file: "progress", build: renderProgress, sectionId: "progress" },
   { file: "surveys",  build: renderSurveys,  sectionId: "survey" },
   { file: "results",  build: renderResults,  sectionId: "results" },
   { file: "team",     build: renderTeam,     sectionId: "team" }
@@ -213,8 +248,75 @@ function setupMenu() {
   });
 }
 
+/* ---------- Smooth scrolling ----------
+   We animate the scroll ourselves, so it looks the same in every browser and does not
+   depend on the computer's animation settings. */
+const RESPECT_REDUCED_MOTION = false;   // true = people who turned animations off in their system get an instant jump
+let scrollFrame = null;                // id of the running animation, so we can stop it
+
+function stopScrollAnimation() {
+  if (scrollFrame !== null) {
+    cancelAnimationFrame(scrollFrame);
+    scrollFrame = null;
+  }
+}
+
+function animateScrollTo(targetY) {
+  stopScrollAnimation();
+  const startY = window.scrollY;
+  const distance = targetY - startY;
+  const reduce = RESPECT_REDUCED_MOTION && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || Math.abs(distance) < 2) {
+    window.scrollTo(0, targetY);
+    return;
+  }
+  const duration = Math.min(2200, Math.max(700, Math.abs(distance) * 0.6));    // farther = longer (milliseconds)
+  const startTime = performance.now();
+  function step(now) {
+    const p = Math.min(1, (now - startTime) / duration);
+    const eased = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;         // gentle start, steady middle, gentle stop
+    window.scrollTo(0, startY + distance * eased);
+    scrollFrame = p < 1 ? requestAnimationFrame(step) : null;
+  }
+  scrollFrame = requestAnimationFrame(step);
+}
+
+// Any link that points to a place on this page (#about, #survey, #top ...) scrolls smoothly,
+// and stops just below the sticky header instead of hiding the section title behind it
+function setupSmoothScroll() {
+  document.addEventListener("click", event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute("href").slice(1);
+    if (!id) return;
+    const target = id === "top" ? null : document.getElementById(id);
+    if (id !== "top" && !target) return;
+    event.preventDefault();
+    const header = document.querySelector(".site-header");
+    const y = target ? target.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) : 0;
+    animateScrollTo(Math.max(0, y));
+    try { history.pushState(null, "", "#" + id); } catch (e) { /* not important */ }
+  });
+  // If the visitor grabs the scroll wheel, a finger, or a key mid-animation, let them take over
+  ["wheel", "touchstart", "keydown"].forEach(name =>
+    window.addEventListener(name, stopScrollAnimation, { passive: true }));
+}
+
+// "Back to top" button: fixed in the corner (see .to-top in style.css)
+function setupToTop() {
+  const button = document.getElementById("toTop");
+  if (!button) return;
+  const GOTOTOP_SHOW_AFTER = 100;   // pixels scrolled before the button appears: 0 = always visible, 400 = only after scrolling down
+  function update() { button.hidden = window.scrollY < GOTOTOP_SHOW_AFTER; }
+  window.addEventListener("scroll", update, { passive: true });
+  button.addEventListener("click", () => animateScrollTo(0));
+  update();
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   setupMenu();
+  setupSmoothScroll();
+  setupToTop();
 
   // Opening index.html by double-click (file://) blocks fetch(); explain instead of showing blanks
   if (location.protocol === "file:") {

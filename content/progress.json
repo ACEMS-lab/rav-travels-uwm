@@ -1,0 +1,47 @@
+{
+  "title": "Project progress",
+  "intro": "Where Task 1.1 stands, from planning through demand forecasting.",
+  "asOf": "[Placeholder: status as of month/year, to be confirmed with Dr. Shi and Dr. Li before publishing]",
+  "steps": [
+    {
+      "name": "Scope of work and timeline",
+      "status": "Completed",
+      "note": "Work plan, timeline, and coordination structure for partner universities."
+    },
+    {
+      "name": "Survey design",
+      "status": "Completed",
+      "note": "Draft surveys for residents and caregivers and for service providers are complete; refinement is ongoing."
+    },
+    {
+      "name": "Research ethics (IRB) review",
+      "status": "Completed",
+      "note": "Coordinating human-subjects review so surveys, interviews, and focus groups can begin."
+    },
+    {
+      "name": "Stakeholder outreach",
+      "status": "Completed",
+      "note": "Gathering feedback from advocacy and service organizations for non-drivers, older adults, people with disabilities, and rural mobility."
+    },
+    {
+      "name": "Survey refinement and pilot testing",
+      "status": "Completed",
+      "note": ""
+    },
+    {
+      "name": "Survey launch and data collection",
+      "status": "In Progress",
+      "note": "Across participating states, with outreach to rural residents, non-drivers, older adults, caregivers, and service providers."
+    },
+    {
+      "name": "Demand analysis and forecasting",
+      "status": "Planned",
+      "note": "Using survey results and regional data to model demand for rural AV services."
+    },
+    {
+      "name": "Synthesis and report",
+      "status": "Planned",
+      "note": ""
+    }
+  ]
+}

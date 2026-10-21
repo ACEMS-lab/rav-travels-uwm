@@ -2,8 +2,8 @@
   "title": "Team and contact",
   "members": [
     {
-      "institution": "UW–Milwaukee (lead)",
-      "role": "",
+      "institution": "UW–Milwaukee",
+      "role": "Lead",
       "people": [
         "Dr. Xiaowei Shi, Associate Program Manager",
         "[Add other UWM team members]"
@@ -11,14 +11,20 @@
       "email": ""
     },
     {
-      "institution": "Oklahoma State University",
-      "role": "Supports rural demand analysis",
+      "institution": "UW–Madison",
+      "role": "Supporting",
       "people": ["[Add contact]"],
       "email": ""
     },
     {
-      "institution": "Northern Oklahoma College",
-      "role": "Supports other demand analysis",
+      "institution": "University of Georgia",
+      "role": "Supporting",
+      "people": ["[Add contact]"],
+      "email": ""
+    },
+    {
+      "institution": "Oklahoma State University",
+      "role": "Supporting",
       "people": ["[Add contact]"],
       "email": ""
     }
