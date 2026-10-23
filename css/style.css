@@ -2,21 +2,24 @@
    style.css  -  the LOOK of the page
    How CSS works:  selector { property: value; }
    e.g.  h1 { color: red; }  means "make every <h1> red".
+   Color scheme: UWM black and gold.
    ===================================================== */
 
 /* 1. COLOR + SIZE SETTINGS ("variables"). Change a color here and it changes everywhere. */
 :root {
-  --maroon: #8b1a2b;      /* TRAVELS-style dark red (guessed from the proposal; adjust to the real brand) */
-  --maroon-dark: #6a1220;
-  --orange: #e8622c;      /* accent */
-  --text: #222;
-  --muted: #5d5d5d;
+  --brand: #000000;        /* UWM black: header, headings, buttons */
+  --brand-dark: #1a1a1a;   /* slightly lighter black for gradients and the phone menu */
+  --accent: #febd36;       /* UWM gold: confirm against uwm.edu/brand before publishing */
+  --accent-hover: #e5a520; /* gold button when hovered */
+  --accent-soft: #fff1cf;  /* pale gold for badges */
+  --text: #1a1a1a;
+  --muted: #595959;
   --bg: #ffffff;
-  --bg-alt: #f6f2f2;      /* light tint for alternating sections */
-  --border: #e3d9d9;
+  --bg-alt: #f4f4f4;       /* light grey tint for alternating sections */
+  --border: #dcdcdc;
   --radius: 10px;
   --max-width: 1040px;
-  --header-offset: 72px;  /* height of the sticky header; menu links stop this far from the top of the window */
+  --header-offset: 72px;   /* height of the sticky header; menu links stop this far from the top of the window */
 }
 
 /* 2. BASICS */
@@ -32,10 +35,11 @@ body {
   background: var(--bg);
   line-height: 1.6;
 }
-a { color: var(--maroon); }
-a:hover { color: var(--orange); }
+/* Links: black text with a gold underline (gold text on white is too hard to read) */
+a { color: var(--brand); text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--brand); }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 .6em; }
-h2 { font-size: 1.8rem; color: var(--maroon); }
+h2 { font-size: 1.8rem; color: var(--brand); display: inline-block; padding-bottom: .15em; border-bottom: 4px solid var(--accent); }
 p { margin: 0 0 1em; }
 .small { font-size: .9rem; color: var(--muted); }
 
@@ -52,8 +56,9 @@ p { margin: 0 0 1em; }
   position: sticky;      /* stays at the top while scrolling */
   top: 0;
   z-index: 10;
-  background: var(--maroon);
+  background: var(--brand);
   color: #fff;
+  border-bottom: 4px solid var(--accent);
 }
 .header-inner {
   display: flex;
@@ -70,17 +75,43 @@ p { margin: 0 0 1em; }
   margin-left: 20px;
   font-weight: 500;
 }
-.site-nav a:hover { color: #ffd2bd; }
+.site-nav a:hover { color: var(--accent); }
 .menu-toggle { display: none; }   /* hidden on desktop; shown on phones below */
 
 /* 4. HERO */
 .hero {
-  background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
-  color: #fff;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+  background: var(--accent);
+  color: #000;
   padding: 64px 0;
 }
-.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); }   /* clamp = size that scales with screen width */
-.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; opacity: .85; }
+.hero .container { position: relative; z-index: 2; }   /* text sits above the picture */
+/* decorative picture (hero.background in content/site.json), anchored to the right */
+.hero-art {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  z-index: 0;
+  pointer-events: none;
+}
+/* soft fade from the left so the text stays easy to read over the picture */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(254, 189, 54, .95) 0%, rgba(254, 189, 54, .75) 35%, rgba(254, 189, 54, 0) 68%);
+}
+.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); max-width: 760px; }   /* clamp = size that scales with screen width */
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; font-weight: 700; color: #000; }
 .lead { font-size: 1.15rem; max-width: 720px; }
 
 /* 5. BUTTONS */
@@ -92,17 +123,17 @@ p { margin: 0 0 1em; }
   text-decoration: none;
   font-weight: 600;
 }
-.btn-primary { background: var(--orange); color: #fff; }
-.btn-primary:hover { background: #c94f1e; color: #fff; }
-.btn-ghost { border: 2px solid #fff; color: #fff; }
-.btn-ghost:hover { background: #fff; color: var(--maroon); }
+.btn-primary { background: #000; color: var(--accent); }
+.btn-primary:hover { background: #222; color: #fff; }
+.btn-ghost { border: 2px solid #000; color: #000; }
+.btn-ghost:hover { background: #000; color: var(--accent); }
 
 /* 6. SECTIONS */
 .section { padding: 56px 0; }
 .section.alt { background: var(--bg-alt); }
 
 /* 7. CARDS + GRID LAYOUT
-   "grid" puts cards in columns. On phones we switch to 1 column (see section 9). */
+   "grid" puts cards in columns. On phones we switch to 1 column (see section 10). */
 .grid { display: grid; gap: 16px; margin-top: 20px; }
 .grid.two   { grid-template-columns: repeat(2, 1fr); }
 .grid.three { grid-template-columns: repeat(3, 1fr); }
@@ -110,11 +141,11 @@ p { margin: 0 0 1em; }
 .card {
   background: #fff;
   border: 1px solid var(--border);
-  border-top: 4px solid var(--orange);
+  border-top: 4px solid var(--accent);
   border-radius: var(--radius);
   padding: 18px;
 }
-.card h3 { color: var(--maroon); font-size: 1.1rem; }
+.card h3 { color: var(--brand); font-size: 1.1rem; }
 
 /* 8a. SURVEY SWITCH (the two tabs above the survey) */
 .survey-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
@@ -122,15 +153,15 @@ p { margin: 0 0 1em; }
   font: inherit;
   font-weight: 600;
   padding: 10px 18px;
-  border: 2px solid var(--maroon);
+  border: 2px solid var(--brand);
   border-radius: 999px;
   background: #fff;
-  color: var(--maroon);
+  color: var(--brand);
   cursor: pointer;
 }
-.survey-tab:hover { background: var(--bg-alt); }
-.survey-tab[aria-selected="true"] { background: var(--maroon); color: #fff; }   /* the active tab */
-.survey-tab:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.survey-tab:hover { background: var(--accent-soft); }
+.survey-tab[aria-selected="true"] { background: var(--brand); color: #fff; box-shadow: inset 0 -4px 0 var(--accent); }   /* the active tab */
+.survey-tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .survey-description { margin-bottom: 12px; }
 
 /* 8b. SURVEY BOX + PLACEHOLDER */
@@ -155,13 +186,13 @@ p { margin: 0 0 1em; }
 /* 8c. LOGO IMAGE, RESULT FIGURES, WARNINGS */
 .brand-logo { height: 48px; width: auto; display: block; }
 
-/* Header style used when a logo is set: white bar, maroon text and a maroon line underneath */
-.site-header.logo-header { background: #fff; color: var(--maroon); border-bottom: 4px solid var(--maroon); }
+/* Header style used when a logo is set: white bar, black text and a gold line underneath */
+.site-header.logo-header { background: #fff; color: var(--brand); border-bottom: 4px solid var(--accent); }
 .logo-header .header-inner { min-height: 68px; }
-.logo-header .brand { color: var(--maroon); }
-.logo-header .site-nav a { color: var(--maroon); }
-.logo-header .site-nav a:hover { color: var(--orange); }
-.logo-header .menu-toggle { color: var(--maroon); border-color: var(--maroon); }
+.logo-header .brand { color: var(--brand); }
+.logo-header .site-nav a { color: var(--brand); }
+.logo-header .site-nav a:hover { color: var(--brand); box-shadow: inset 0 -3px 0 var(--accent); }
+.logo-header .menu-toggle { color: var(--brand); border-color: var(--brand); }
 .result { margin: 0; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .result img { width: 100%; height: auto; display: block; }
 .result figcaption { padding: 12px 16px; font-size: .95rem; }
@@ -181,7 +212,7 @@ p { margin: 0 0 1em; }
   padding: 12px 16px;
 }
 .step-completed   { border-left-color: #2e7d32; }
-.step-in-progress { border-left-color: var(--orange); }
+.step-in-progress { border-left-color: var(--accent); }
 .badge {
   flex: none;
   min-width: 104px;
@@ -196,7 +227,7 @@ p { margin: 0 0 1em; }
   color: #444;
 }
 .step-completed .badge   { background: #e3f2e4; color: #1b5e20; }
-.step-in-progress .badge { background: #fde6db; color: #9c3a10; }
+.step-in-progress .badge { background: var(--accent-soft); color: #6b4a00; }
 
 /* 8e. BACK-TO-TOP BUTTON (fixed in the bottom-right corner) */
 .to-top {
@@ -209,20 +240,29 @@ p { margin: 0 0 1em; }
   display: flex;                 /* centers the arrow icon inside the circle */
   align-items: center;
   justify-content: center;
-  border: 0;
+  border: 2px solid var(--accent);
   border-radius: 50%;
-  background: var(--maroon);
-  color: #fff;
+  background: var(--brand);
+  color: var(--accent);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
 }
-.to-top:hover { background: var(--orange); }
-.to-top:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.to-top:hover { background: var(--accent); color: var(--brand); }
+.to-top:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .to-top[hidden] { display: none; }   /* make sure "hidden" wins over the display rules above */
 
 /* 9. FOOTER */
-.site-footer { background: #2a2a2a; color: #ddd; padding: 28px 0; }
-.site-footer a { color: #ffd2bd; }
+.site-footer { background: var(--brand); color: #ddd; padding: 28px 0; border-top: 4px solid var(--accent); }
+.site-footer a { color: var(--accent); }
+.footer-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 45px; margin-bottom: 20px; }
+.footer-logos img { height: 56px; width: auto; display: block; }
+
+/* 9b. NARROWER SCREENS (laptops, tablets): there is not enough room for the picture beside the text,
+   so it becomes a faint backdrop instead */
+@media (max-width: 1359px) {
+  .hero-art { opacity: .45; }
+  .hero::after { background: rgba(254, 189, 54, .6); }
+}
 
 /* 10. PHONES AND SMALL SCREENS
    Everything inside @media applies ONLY when the screen is 800px wide or less. */
@@ -243,7 +283,7 @@ p { margin: 0 0 1em; }
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--maroon-dark);
+    background: var(--brand-dark);
     padding: 8px 16px 16px;
   }
   .site-nav.open { display: block; }
@@ -251,6 +291,10 @@ p { margin: 0 0 1em; }
   .survey-box iframe { height: 600px; }
   .brand-logo { height: 40px; }
   .step { flex-direction: column; gap: 6px; }
+  /* on phones the picture is only a faint backdrop behind the text */
+  .hero-art { opacity: .35; }
+  .hero::after { background: rgba(254, 189, 54, .55); }
   /* phone dropdown menu for the white logo header */
-  .logo-header .site-nav { background: #fff; border-bottom: 4px solid var(--maroon); }
+  .logo-header .site-nav { background: #fff; border-bottom: 4px solid var(--accent); }
+  .logo-header .site-nav a:hover { box-shadow: none; text-decoration: underline; text-decoration-color: var(--accent); }
 }

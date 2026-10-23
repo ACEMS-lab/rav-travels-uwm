@@ -63,6 +63,19 @@ function renderSite(site) {
 
   // Hero (big title area)
   const h = site.hero;
+
+  // Optional decorative picture behind the hero text: hero.background in site.json (leave "" for none)
+  const heroSection = document.getElementById("hero");
+  const oldArt = heroSection.querySelector(".hero-art");
+  if (oldArt) oldArt.remove();
+  if (h.background) {
+    const art = document.createElement("img");
+    art.className = "hero-art";
+    art.src = h.background;
+    art.alt = "";                     // decorative: screen readers skip it
+    art.setAttribute("aria-hidden", "true");
+    heroSection.prepend(art);
+  }
   box("hero").innerHTML =
     '<p class="eyebrow">' + esc(h.eyebrow) + "</p>" +
     "<h1>" + esc(h.title) + "</h1>" +
@@ -76,6 +89,16 @@ function renderSite(site) {
   // Footer
   const f = site.footer;
   document.getElementById("footerContent").innerHTML =
+    "<p>" + esc(f.before) +
+    '<a href="' + esc(f.linkUrl) + '" target="_blank" rel="noopener">' + esc(f.linkLabel) + "</a>" +
+    esc(f.after) + "</p>" +
+    '<p class="small">© ' + new Date().getFullYear() + " " + esc(f.copyright) + "</p>";
+  const logos = (f.logos || []).map(l =>
+    '<a href="' + esc(l.href) + '" target="_blank" rel="noopener">' +
+    '<img src="' + esc(l.src) + '" alt="' + esc(l.alt) + '"' + (l.height ? ' style="height:' + Number(l.height) + 'px"' : "") + '></a>'
+  ).join("");
+  document.getElementById("footerContent").innerHTML =
+    (logos ? '<div class="footer-logos">' + logos + "</div>" : "") +
     "<p>" + esc(f.before) +
     '<a href="' + esc(f.linkUrl) + '" target="_blank" rel="noopener">' + esc(f.linkLabel) + "</a>" +
     esc(f.after) + "</p>" +
@@ -218,8 +241,8 @@ function renderTeam(team) {
 const SECTIONS = [
   { file: "site",     build: renderSite,     sectionId: "hero" },
   { file: "about",    build: renderAbout,    sectionId: "about" },
-  { file: "services", build: renderServices, sectionId: "services" },
   { file: "progress", build: renderProgress, sectionId: "progress" },
+  { file: "services", build: renderServices, sectionId: "services" },
   { file: "surveys",  build: renderSurveys,  sectionId: "survey" },
   { file: "results",  build: renderResults,  sectionId: "results" },
   { file: "team",     build: renderTeam,     sectionId: "team" }
@@ -251,7 +274,7 @@ function setupMenu() {
 /* ---------- Smooth scrolling ----------
    We animate the scroll ourselves, so it looks the same in every browser and does not
    depend on the computer's animation settings. */
-const RESPECT_REDUCED_MOTION = false;   // true = people who turned animations off in their system get an instant jump
+const RESPECT_REDUCED_MOTION = true;   // true = people who turned animations off in their system get an instant jump
 let scrollFrame = null;                // id of the running animation, so we can stop it
 
 function stopScrollAnimation() {
@@ -267,6 +290,7 @@ function animateScrollTo(targetY) {
   const distance = targetY - startY;
   const reduce = RESPECT_REDUCED_MOTION && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || Math.abs(distance) < 2) {
+    if (reduce) console.info("Smooth scrolling skipped: this computer is set to 'reduce motion' (see RESPECT_REDUCED_MOTION in js/main.js).");
     window.scrollTo(0, targetY);
     return;
   }
@@ -306,8 +330,8 @@ function setupSmoothScroll() {
 function setupToTop() {
   const button = document.getElementById("toTop");
   if (!button) return;
-  const GOTOTOP_SHOW_AFTER = 100;   // pixels scrolled before the button appears: 0 = always visible, 400 = only after scrolling down
-  function update() { button.hidden = window.scrollY < GOTOTOP_SHOW_AFTER; }
+  const SHOW_AFTER = 100;   // pixels scrolled before the button appears: 0 = always visible, 400 = only after scrolling down
+  function update() { button.hidden = window.scrollY < SHOW_AFTER; }
   window.addEventListener("scroll", update, { passive: true });
   button.addEventListener("click", () => animateScrollTo(0));
   update();

@@ -6,15 +6,15 @@
       "role": "Lead",
       "people": [
         "Dr. Xiaowei Shi, Associate Program Manager",
-        "[Add other UWM team members]"
+        "Narayan Rai, Research Assistant"
       ],
-      "email": ""
+      "email": ["tomshi@uwm.edu", "nrai@uwm.edu"]
     },
     {
       "institution": "UW–Madison",
       "role": "Supporting",
-      "people": ["[Add contact]"],
-      "email": ""
+      "people": ["Xiaopeng Li, PhD, Professor"],
+      "email": "xli@wisc.edu"
     },
     {
       "institution": "University of Georgia",
